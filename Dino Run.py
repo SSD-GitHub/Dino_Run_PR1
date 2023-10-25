@@ -1,5 +1,5 @@
 #install 'python -m pip install -U pygame --user' before attempting to run this game.
-#This file will be deprecated in the coming days as I replace it with a new refactored version of our code.
+
 #importing the pygame library and initialising it.
 import pygame
 pygame.init()
@@ -90,15 +90,15 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: #When close button pressed, close the program.
                 pygame.quit()
-    
-    # Update the player sprite
-    player.update()
-    
-    # Clear the window
-    window.fill((255, 255, 255))
-    
-    # Draw the player sprite
-    player.draw(window)
-    
-    # Update the display
-    pygame.display.update()
+                run = False
+
+        SCREEN.fill((255, 255, 255)) #You have to pass in a tuple to represent RGB values in pygame.
+        userInput = pygame.key.get_pressed() #stores the user input.
+
+        player.draw(SCREEN)
+        player.update(userInput)
+
+        clock.tick(30)
+        pygame.display.update()
+
+main()
