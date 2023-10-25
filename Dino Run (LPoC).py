@@ -1,5 +1,5 @@
 #install 'python -m pip install -U pygame --user' before attempting to run this game.
-
+#This is the original version of the game before I refactored the code, DO NOT EDIT THIS! LPoC means Legacy Proof of Concept.
 #importing the pygame library and initialising it.
 import pygame
 pygame.init()
