@@ -37,6 +37,8 @@ BACKGROUND = pygame.image.load("C:\\Users\\shawn\\OneDrive - Buckinghamshire New
 class Dinosaur:
     x = 80
     y = 310
+    y_duck = 340
+    JUMP_VEL = 8.5
 
     def __init__(self):
         #Linking the sprite states to variables for easy referencing later on.
@@ -49,6 +51,7 @@ class Dinosaur:
         self.dino_jump = False
 
         self.step_index = 0 #to help animate the dinosaur
+        self.jump_vel = self.JUMP_VEL
         self.image = self.run_img[0] #to set the dinosaur's inital sprite state.
         self.dino_rect = self.image.get_rect() #establishes the player's hitbox to allow for the implementation of object collision detection and handling.
         self.dino_rect.x = self.x #aligns the hitbox with the dinosaur's x coordinate.
@@ -79,7 +82,31 @@ class Dinosaur:
             self.dino_run = True
             self.dino_jump = False
 
-        
+    def duck(self):
+        self.image = self.duck_img[self.step_index // 5]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.x
+        self.dino_rect.y = self.y_duck
+        self.step_index += 1
+
+    def run(self):
+        self.image = self.run_img[self.step_index // 5]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x = self.x
+        self.dino_rect.y = self.y
+        self.step_index += 1
+
+    def jump(self):
+        self.image = self.jump_img
+        if self.dino_jump:
+            self.dino_rect.y -= self.jump_vel * 4
+            self.jump_vel -= 0.8
+        if self.jump_vel < - self.JUMP_VEL:
+            self.dino_jump = False
+            self.jump_vel = self.JUMP_VEL
+
+    def draw(self, SCREEN):
+        SCREEN.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
 #Creating Game Loop
 def main():
     run = True
