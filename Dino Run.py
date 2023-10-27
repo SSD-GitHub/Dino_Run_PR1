@@ -1,8 +1,9 @@
 #install 'python -m pip install -U pygame --user' before attempting to run this game.
 
-#importing the pygame library and initialising it.
+#importing the necessary libraries and initialising them.
 import pygame
 pygame.init()
+import random
 
 #Establishing global constants
 SCREEN_HEIGHT = 600
@@ -82,7 +83,6 @@ class Dinosaur:
             self.dino_duck = False
             self.dino_run = True
             self.dino_jump = False
-
     def duck(self):
         #self.image = self.duck_img[self.step_index // 5]
         self.dino_rect = self.duck_img.get_rect()
@@ -108,6 +108,22 @@ class Dinosaur:
 
     def draw(self, SCREEN):
         SCREEN.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
+class Cloud:
+    def __init__(self):
+        self.x = SCREEN_WIDTH + random.randint(800, 1000)
+        self.y = random.randint(50, 100)
+        self.image = CLOUD
+        self.width = self.image.get_width()
+
+    def update(self):
+        self.x -= game_speed
+        if self.x < -self.width:
+            self.x = SCREEN_WIDTH + random.randint(2500, 3000)
+            self.y = random.randint(50, 100)
+
+    def draw(self, SCREEEN):
+        SCREEN.blit(self.image, (self.x, self.y))
+
 
 class Cloud:
     def __init__(self):
