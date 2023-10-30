@@ -83,6 +83,7 @@ class Dinosaur:
             self.dino_duck = False
             self.dino_run = True
             self.dino_jump = False
+
     def duck(self):
         #self.image = self.duck_img[self.step_index // 5]
         self.dino_rect = self.duck_img.get_rect()
@@ -180,6 +181,7 @@ def main():
     points = 0 
     font= pygame.font.Font('freesansbold.ttf',20)
     obstacles = [] #establishes an array for all of the obstacles
+    death_count = 0
 
     def score():
         global points, game_speed
@@ -225,7 +227,10 @@ def main():
             obstacle.draw(SCREEN)
             obstacle.update()
             if player.dino_rect.colliderect(obstacle.rect):
-                pygame.draw.rect(SCREEN, (255, 0, 0), player.dino_rect,2)
+                pygame.time.delay(2000)
+                death_count += 1
+                menu(death_count)
+           
 
         cloud.draw(SCREEN)
         cloud.update()
@@ -233,4 +238,31 @@ def main():
         clock.tick(30)
         pygame.display.update()
 
-main()
+def menu(death_count):
+    global points
+    run = True
+    while run:
+        SCREEN.fill((255, 255, 255))
+        font = pygame.font.Font("freesansbold.ttf", 30)# what is freesansbold
+ 
+        if death_count == 0:
+            text = font.render("Press any Key to Start", True, (0, 0, 0))
+        elif death_count > 0:
+            text = font.render("Press any key to Restart", True, (0, 0, 0))
+            score = font.render("Your Score: " + str(points), True, (0, 0, 0))
+            scoreRect = score.get_rect()
+            scoreRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)
+            SCREEN.blit(score, scoreRect)
+        textRect = text.get_rect()
+        textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        SCREEN.blit(text, textRect)
+        SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                main()
+ 
+ 
+menu(death_count=0)
