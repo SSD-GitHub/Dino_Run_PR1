@@ -11,27 +11,27 @@ SCREEN_WIDTH = 1100
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 #Character Sprite State Constants
-RUNNING = [pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Dino\\DinoRun1.png"), 
-           ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Dino\\DinoRun2.png")]
+RUNNING = [pygame.image.load("Assets\\Dino\\DinoRun1.png"), 
+           pygame.image.load("Assets\\Dino\\DinoRun2.png")]
 
-JUMPING = pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Dino\\DinoJump.png")
+JUMPING = pygame.image.load("Assets\\Dino\\DinoJump.png")
 
-DUCKING = pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Dino\\DinoDuck1.png")
+DUCKING = pygame.image.load("Assets\\Dino\\DinoDuck1.png")
 
-SMALL_CACTUS = [pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\SmallCactus1.png"), 
-                ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\SmallCactus2.png"), 
-                ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\SmallCactus3.png")]
+SMALL_CACTUS = [pygame.image.load("Assets\\Cactus\\SmallCactus1.png"), 
+                pygame.image.load("Assets\\Cactus\\SmallCactus2.png"), 
+                pygame.image.load("Assets\\Cactus\\SmallCactus3.png")]
 
-LARGE_CACTUS = [pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\LargeCactus1.png"), 
-                ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\LargeCactus2.png"), 
-                ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Cactus\\LargeCactus3.png")]
+LARGE_CACTUS = [pygame.image.load("Assets\\Cactus\\LargeCactus1.png"), 
+                pygame.image.load("Assets\\Cactus\\LargeCactus2.png"), 
+                pygame.image.load("Assets\\Cactus\\LargeCactus3.png")]
 
-TERADACTYL = [pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Teradactyl\\1.png"), 
-              ("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Teradactyl\\2.png")]
+TERADACTYL = [pygame.image.load("Assets\\Teradactyl\\Bird1.png"), 
+              pygame.image.load("Assets\\Teradactyl\\Bird2.png")]
 
-CLOUD = pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Other\\Cloud.png")
+CLOUD = pygame.image.load("Assets\\Other\\Cloud.png")
 
-BACKGROUND = pygame.image.load("C:\\Users\\22308693\\OneDrive - Buckinghamshire New University\\Cyber Security BSc Course Folder\\Programming Concepts\\PR1 Project Resources\\Assets\\Other\\Track.png")
+BACKGROUND = pygame.image.load("Assets\\Other\\Track.png")
 
 #Creating classes
 class Dinosaur:
@@ -42,7 +42,7 @@ class Dinosaur:
 
     def __init__(self):
         #Linking the sprite states to variables for easy referencing later on.
-        self.duck_img = DUCKING
+        self.duck_img = [DUCKING]
         self.run_img = RUNNING
         self.jump_img = JUMPING
         #gives the dinosaur different states and establishes its default state.
@@ -56,8 +56,7 @@ class Dinosaur:
         self.dino_rect = self.image.get_rect() #establishes the player's hitbox to allow for the implementation of object collision detection and handling.
         self.dino_rect.x = self.x #aligns the hitbox with the dinosaur's x coordinate.
         self.dino_rect.y = self.y #aligns the hitbox with the dinosaur's y coordinate.
-        #self.duck_image = self.duck_img[self.step_index // 5]
-        #self.runner_image = self.run_img[self.step_index // 5]
+
 
     def update(self, userInput):
         if self.dino_duck: #ensures that the Dinosaur ducks when it is supposed to.
@@ -85,7 +84,8 @@ class Dinosaur:
             self.dino_jump = False
 
     def duck(self):
-        self.image = self.duck_img[self.step_index // 5]
+        if self.step_index // 5 < len(self.duck_img):
+            self.image = self.duck_img[self.step_index // 5]
         self.step_index += 1
         if self.step_index >= len(self.duck_img) * 5:
             self.step_index = 0
@@ -94,7 +94,8 @@ class Dinosaur:
         
 
     def run(self):
-        self.image = self.run_img[self.step_index // 5]
+        if self.step_index // 5 < len(self.run_img):
+            self.image = self.run_img[self.step_index // 5]
         self.step_index += 1
         if self.step_index >= len(self.run_img) * 5:
             self.step_index = 0
